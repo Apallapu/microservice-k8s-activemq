@@ -1,8 +1,0 @@
-C:\mydevelopment\microservice-k8s-activemq\newbus-service\src\main\java\com\poc\NewbusServiceApplication.java
-C:\mydevelopment\microservice-k8s-activemq\newbus-service\src\main\java\com\poc\service\BusService.java
-C:\mydevelopment\microservice-k8s-activemq\newbus-service\src\main\java\com\poc\exception\ErrorResponse.java
-C:\mydevelopment\microservice-k8s-activemq\newbus-service\src\main\java\com\poc\exception\GobalExceptionHandler.java
-C:\mydevelopment\microservice-k8s-activemq\newbus-service\src\main\java\com\poc\model\Ticket.java
-C:\mydevelopment\microservice-k8s-activemq\newbus-service\src\main\java\com\poc\config\SwaggerConfig.java
-C:\mydevelopment\microservice-k8s-activemq\newbus-service\src\main\java\com\poc\exception\ClientException.java
-C:\mydevelopment\microservice-k8s-activemq\newbus-service\src\main\java\com\poc\controller\BusController.java
