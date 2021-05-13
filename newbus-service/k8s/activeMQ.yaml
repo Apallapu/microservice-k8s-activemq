@@ -1,0 +1,107 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: queue-secret
+type: Opaque
+data:
+  activemq-password: YWRtaW4=
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: queue-pv
+  labels:
+    type: local
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 250Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+  persistentVolumeReclaimPolicy: Retain
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: queue-pvc
+  labels:
+    app: queue-service
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 250Mi
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: queue-config
+data:
+  activemq-user: admin
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: queue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: queue
+  template:
+    metadata:
+      labels:
+        app: queue
+    spec:
+      containers:
+        - name: web
+          image: webcenter/activemq:5.14.3
+          imagePullPolicy: Never
+          env:
+            - name: ACTIVEMQ_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: queue-config
+                  key: activemq-user
+            - name: ACTIVEMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: queue-secret
+                  key: activemq-password
+          ports:
+            - containerPort: 61616
+              name: activemq
+          volumeMounts:
+            - name: activemq-persistent-storage
+              mountPath: /var/lib/activemq
+      volumes:
+        - name: activemq-persistent-storage
+          persistentVolumeClaim:
+            claimName: queue-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: queue
+spec:
+  selector:
+    app: queue
+
+  ports:
+    - name: http
+      port: 8161
+      nodePort: 32190
+
+    - name: tcp
+      port: 61616
+      nodePort: 32191
+  type: NodePort

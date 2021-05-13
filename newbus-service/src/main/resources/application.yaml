@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: newbus-service
+  activemq:
+    user: ${ACTIVEMQ_USER}
+    password: ${ACTIVEMQ_PASSWORD}
+    broker-url: tcp://queue.default.svc.cluster.local:61616?jms.redeliveryPolicy.maximumRedeliveries=1
+
+newbus:
+  url: http://spring-boot-svc.default.svc.cluster.local:8080/bus/v1

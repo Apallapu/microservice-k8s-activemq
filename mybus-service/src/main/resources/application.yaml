@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mysql://mysql-svc:3306/${DB_NAME}?useSSL=false
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    databasePlatform: "org.hibernate.dialect.MySQL5InnoDBDialect"
+  activemq:
+    user: ${ACTIVEMQ_USER}
+    password: ${ACTIVEMQ_PASSWORD}
+    broker-url: tcp://queue.default.svc.cluster.local:61616?jms.redeliveryPolicy.maximumRedeliveries=1
